@@ -11,11 +11,11 @@ import {
 
 import { reHTMLTag, htmlToWwConvertors } from './htmlToWwConvertors';
 
-export function getTextWithoutTrailingNewline(text: string) {
+function getTextWithoutTrailingNewline(text: string) {
   return text[text.length - 1] === '\n' ? text.slice(0, text.length - 1) : text;
 }
 
-export function isBRTag(node: MdNode) {
+function isBRTag(node: MdNode) {
   return node.type === 'htmlInline' && /<br ?\/?>/.test(node.literal!);
 }
 
@@ -150,12 +150,16 @@ export const toWwConvertors: ToWwConvertorMap = {
   },
 
   softbreak(state, node) {
-    const { next, prev } = node;
-    const prevBr = prev && isBRTag(prev);
-    const nextBr = next && isBRTag(next);
+    if (node.parent!.type === 'paragraph') {
+      const { prev, next } = node;
 
-    if (!prevBr && !nextBr) {
-      state.addText('\n');
+      if (prev && !isBRTag(prev)) {
+        state.closeNode();
+      }
+
+      if (next && !isBRTag(next)) {
+        state.openNode(state.schema.nodes.paragraph);
+      }
     }
   },
 

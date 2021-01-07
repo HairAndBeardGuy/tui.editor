@@ -125,8 +125,15 @@ const convertors: HTMLToWwConvertorMap = {
     state.addNode(state.schema.nodes.thematicBreak, { rawHTML: openTagName });
   },
 
-  br: (state, _, openTagName) => {
-    state.addNode(state.schema.nodes.lineBreak, { rawHTML: openTagName });
+  br: (state, node) => {
+    if (node.parent!.type === 'paragraph') {
+      if (!node.prev) {
+        state.closeNode();
+      }
+
+      state.openNode(state.schema.nodes.paragraph);
+      state.closeNode();
+    }
   }
 };
 

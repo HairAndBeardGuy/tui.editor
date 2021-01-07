@@ -43,17 +43,22 @@ const nodes: ToMdNodeConvertorMap = {
   },
 
   paragraph(state, node, parent, index = 0) {
-    if (node.childCount) {
+    if (node.childCount > 0) {
+      // @ts-ignore
+      state.closed = false;
       state.convertInline(node);
+      state.write('\n');
       state.closeBlock(node);
     } else if (parent && index > 0) {
       // this condition is for adding <br> from the case
       // where there are two or more blank lines in the editor
       const prevNode = parent.child(index - 1);
-      const blankLine =
-        node.childCount === 0 && prevNode.type.name === 'paragraph' && prevNode.childCount === 0;
+      const lineBreak =
+        node.childCount === 0 && prevNode.type.name === 'paragraph' && prevNode.childCount > 0;
 
-      if (blankLine) {
+      if (lineBreak) {
+        state.write('');
+      } else {
         state.write('<br>\n');
       }
     }
