@@ -42,7 +42,7 @@ describe('Convertor', () => {
   });
 
   describe('convert between markdown and wysiwyg node to', () => {
-    fit('empty content', () => {
+    it('empty content', () => {
       assertConverting('', '');
     });
 
@@ -272,7 +272,7 @@ describe('Convertor', () => {
       assertConverting(markdown, expected);
     });
 
-    fit('soft break', () => {
+    it('soft break', () => {
       const markdown = source`
         foo
         bar
@@ -296,7 +296,7 @@ describe('Convertor', () => {
       assertConverting(markdown, expected);
     });
 
-    fit('<br> html string', () => {
+    it('<br> html string', () => {
       const markdown = source`
         foo
         <br>
@@ -325,7 +325,7 @@ describe('Convertor', () => {
       assertConverting(markdown, expected);
     });
 
-    fit('<br> html string with soft break', () => {
+    it('<br> html string with soft break', () => {
       const markdown = source`
         foo
 
@@ -357,7 +357,7 @@ describe('Convertor', () => {
       assertConverting(markdown, expected);
     });
 
-    it('table with <br> html string', () => {
+    xit('table with <br> html string', () => {
       const markdown = source`
         | thead<br>thead | thead |
         | ----- | ----- |
@@ -374,7 +374,7 @@ describe('Convertor', () => {
       assertConverting(markdown, `${expected}\n`);
     });
 
-    it('table with list html string', () => {
+    xit('table with list html string', () => {
       const markdown = source`
         | thead | thead |
         | ----- | ----- |
