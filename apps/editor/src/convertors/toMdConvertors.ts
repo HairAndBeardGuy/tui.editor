@@ -154,11 +154,6 @@ const nodes: ToMdNodeConvertorMap = {
     state.closeBlock(node);
   },
 
-  hardBreak(state) {
-    console.log('--->');
-    state.write(state.inCell ? '<br>' : '\n');
-  },
-
   table(state, node) {
     state.convertNode(node);
     state.closeBlock(node);
