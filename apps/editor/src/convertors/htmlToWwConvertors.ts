@@ -127,11 +127,11 @@ const convertors: HTMLToWwConvertorMap = {
 
   br: (state, node) => {
     if (node.parent!.type === 'paragraph') {
-      if (!node.prev) {
-        state.closeNode();
-      }
+      const firstBRInPara = node.prev === null;
 
-      state.openNode(state.schema.nodes.paragraph);
+      if (!firstBRInPara) {
+        state.openNode(state.schema.nodes.paragraph);
+      }
       state.closeNode();
     }
   }

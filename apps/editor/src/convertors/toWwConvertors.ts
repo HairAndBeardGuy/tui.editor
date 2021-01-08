@@ -24,10 +24,14 @@ export const toWwConvertors: ToWwConvertorMap = {
     state.addText(node.literal || '');
   },
 
-  paragraph(state, _, { entering }) {
+  paragraph(state, node, { entering }) {
     const { paragraph } = state.schema.nodes;
 
     if (entering) {
+      if (node.prev?.type === 'paragraph') {
+        state.openNode(paragraph);
+        state.closeNode();
+      }
       state.openNode(paragraph);
     } else {
       state.closeNode();
